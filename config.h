@@ -20,19 +20,13 @@ static const char *colors[][3]      = {
 };
 
 typedef struct {
-	const char *name;
-	const void *cmd;
+    const char *name;
+    const void *cmd;
 } Sp;
-//const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd1[] = {"alacritty", "--class", "Alacritty,spterm", NULL };
-//const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd2[] = {"alacritty", "--class", "Alacritty,audio", "-e", "pulsemixer", NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
+const char *spcmd1[] = {"alacritty", "--class", "Alacritty,terminal", NULL };
 static Sp scratchpads[] = {
-	/* name          cmd  */
-	{"spterm",      spcmd1},
-	{"audio",    spcmd2},
-	{"keepassxc",   spcmd3},
+    /* name          cmd  */
+    {"terminal", spcmd1},
 };
 
 /* tagging */
@@ -43,14 +37,12 @@ static const Rule rules[] = {
      *  WM_CLASS(STRING) = instance, class
      *  WM_NAME(STRING) = title
      */
-	/* class       instance     title           tags mask       isfloating  isterminal  noswallow  monitor */
-	{ "Gimp",      NULL,        NULL,           0,              1,          0,           0,        -1 },
-	{ "Firefox",   NULL,        NULL,           1 << 8,         0,          0,          -1,        -1 },
-	{ "Alacritty", NULL,        NULL,           0,              0,          1,           0,        -1 },
-	{ NULL,        NULL,        "Event Tester", 0,              0,          0,           1,        -1 }, /* xev */
-	{ NULL,		  "spterm",		NULL,		    SPTAG(0),		1,			1,           0,        -1 },
-	{ NULL,		  "audio",		NULL,		    SPTAG(1),		1,			1,           0,        -1 },
-	{ NULL,		  "keepassxc",	NULL,		    SPTAG(2),		0,			0,           0,        -1 },
+    /* class       instance     title           tags mask       isfloating  isterminal  noswallow  monitor */
+    { "Gimp",      NULL,        NULL,           0,              1,          0,           0,        -1 },
+    { "Firefox",   NULL,        NULL,           1 << 8,         0,          0,          -1,        -1 },
+    { "Alacritty", NULL,        NULL,           0,              0,          1,           0,        -1 },
+    { NULL,        NULL,        "Event Tester", 0,              0,          0,           1,        -1 }, /* xev */
+    { NULL,       "terminal",   NULL,           SPTAG(0),       1,          1,           0,        -1 },
 };
 
 /* layout(s) */
@@ -85,39 +77,36 @@ static const char *termcmd[]  = { "alacritty", NULL };
 #include "shiftview.c"
 static const Key keys[] = {
     /* modifier                     key        function        argument */
-    { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+    // Base
     { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY,                       XK_q,      killclient,     {0} },
     { MODKEY|ControlMask,           XK_c,      quit,           {0} },
+    { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+    { MODKEY,                       XK_n,      togglescratch,  {.ui = 0 } },
 
-    { MODKEY|ShiftMask,             XK_j,      setmfact,       {.f = -0.05} },
-    { MODKEY,                       XK_k,      focusstack,     {.i = +1 } },
+    // Intra-tag movement
     { MODKEY,                       XK_l,      focusstack,     {.i = -1 } },
+    { MODKEY,                       XK_k,      focusstack,     {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_j,      setmfact,       {.f = -0.05} },
     { MODKEY|ShiftMask,             XK_ntilde, setmfact,       {.f = +0.05} },
-
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
-
-    { MODKEY,                       XK_u,      zoom,           {0} },
-    { MODKEY,                       XK_Tab,    view,           {0} },
-
+    { MODKEY,                       XK_w,      focusmaster,    {0} },
+    { MODKEY,                       XK_h,      zoom,           {0} },
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-    { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+    { MODKEY,                       XK_space,  togglefullscr,  {0} },
+    { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 
-	{ MODKEY,                       XK_j,      shiftview,      { .i = -1 } },
-	{ MODKEY,                       XK_ntilde, shiftview,      { .i = +1 } },
-    { MODKEY,                       XK_w,      focusmaster,    {0} },
-
-    { MODKEY,                       XK_space,  togglefloating, {0} },
+    // Inter-tag movement
+    { MODKEY,                       XK_Tab,    view,           {0} },
+    { MODKEY,                       XK_j,      shiftview,      { .i = -1 } },
+    { MODKEY,                       XK_ntilde, shiftview,      { .i = +1 } },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
-	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
-	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            			XK_x,	   togglescratch,  {.ui = 2 } },
-
+    // Tags
     TAGKEYS(                        XK_1,                      0)
     TAGKEYS(                        XK_2,                      1)
     TAGKEYS(                        XK_3,                      2)
@@ -140,18 +129,19 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
     /* click                event mask      button          function        argument */
-    { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-    { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-    { ClkWinTitle,          0,              Button2,        zoom,           {0} },
-    { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+    { ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
+
+    { ClkWinTitle,          MODKEY,         Button2,        zoom,           {0} },
+
     { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+    { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+
     { ClkTagBar,            0,              Button1,        view,           {0} },
     { ClkTagBar,            0,              Button3,        toggleview,     {0} },
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkTagBar,            0,              Button4,        shiftview,      { .i = -1 } },
-	{ ClkTagBar,            0,              Button5,        shiftview,      { .i = +1 } },
+    { ClkTagBar,            0,              Button4,        shiftview,      { .i = -1 } },
+    { ClkTagBar,            0,              Button5,        shiftview,      { .i = +1 } },
 };
 
