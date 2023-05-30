@@ -2,6 +2,7 @@
 This custom build of `dwm` is part of [my dotfiles](https://github.com/rfacun/dotfiles).
 
 ## Patches applied
+### Functional
 - [x] [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/):
 actually toggle fullscreen for a window, instead of toggling the status bar and
 the monocle layout.
@@ -14,7 +15,7 @@ return to the client switched from using the same keybind.
 tag in contrast of one layout for all tags, also keeps layout, mwfact, barpos
 and nmaster per tag.
 - [x] [swallow](https://dwm.suckless.org/patches/swallow/): this patch adds
-"window swallowing" to dwm as known from Plan 9's windowing system `rio`.
+"window swallowing" to `dwm` as known from Plan 9's windowing system `rio`.
 - [x] [alwayscenter](https://dwm.suckless.org/patches/alwayscenter/):
 all floating windows are centered, like the
 [center](https://dwm.suckless.org/patches/center/) patch, but without a rule.
@@ -22,6 +23,9 @@ all floating windows are centered, like the
 togglefloating() floats the  client in a  centered position.
 - [x] [scratchpads](https://dwm.suckless.org/patches/scratchpads/): enables
 multiple scratchpads, each with one asigned window.
+- [x] [status2d+systray](https://dwm.suckless.org/patches/status2d/): allows
+colors and rectangle drawing in your `dwm` status bar, it also embeds
+[systray patch](https://dwm.suckless.org/patches/systray/).
 
 ## Install
 ```
