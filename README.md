@@ -25,7 +25,13 @@ togglefloating() floats the  client in a  centered position.
 multiple scratchpads, each with one asigned window.
 - [x] [status2d+systray](https://dwm.suckless.org/patches/status2d/): allows
 colors and rectangle drawing in your `dwm` status bar, it also embeds
-[systray patch](https://dwm.suckless.org/patches/systray/).
+[systray](https://dwm.suckless.org/patches/systray/) patch.
+- [x] [vanitygaps+cfacts](https://dwm.suckless.org/patches/vanitygaps/): adds
+inner gaps between client windows and outer gaps between windows and the screen
+edge in a flexible manner, comes with [cfacts](https://dwm.suckless.org/patches/cfacts/)
+patch (resize stack windows).
+- [x] [hide vacant tags](https://dwm.suckless.org/patches/hide_vacant_tags/):
+prevents `dwm` from drawing tags with no clients (i.e. vacant) on the bar.
 
 ## Install
 ```
