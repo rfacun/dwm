@@ -29,6 +29,7 @@ static const char col_fg[]          = "#b3b1ad";
 static const char col_fg_sel[]      = "#0a0e14";
 //static const char col_bg_sel[]      = "#748f4e";    // green accent
 static const char col_bg_sel[]      = "#c78c3f";    // orange accent
+static const char col_hbg_sel[]      = "#b37e38";    // orange accent dimmed
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_fg, col_bg, col_bg },
@@ -109,7 +110,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, 
+    "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel,
+    "-nhb", col_bg, "-nhf", col_bg_sel, "-shb", col_hbg_sel, "-shf", col_fg_sel, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
 #include "shiftview.c"
@@ -151,8 +154,9 @@ static const Key keys[] = {
     { ControlMask|ShiftMask,        XK_g,           togglegaps,     {0} },
 
     // Programs
-    { ControlMask|ShiftMask,        XK_t,           togglescratch,  {.ui = 0 } },
     { MODKEY,                       XK_apostrophe,  spawn,          SHCMD("xsecurelock") },
+    { ControlMask|ShiftMask,        XK_t,           togglescratch,  {.ui = 0 } },
+    { ControlMask|ShiftMask,        XK_s,           spawn,          SHCMD("alac") },
 
     { ControlMask|ShiftMask,        XK_a,           togglescratch,  {.ui = 1 } },
     { ControlMask|ShiftMask,        XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
