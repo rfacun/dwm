@@ -41,9 +41,11 @@ typedef struct {
     const void *cmd;
 } Sp;
 const char *spcmd1[] = {"alacritty", "--class", "Alacritty,terminal", NULL };
+const char *spcmd2[] = {"alacritty", "--class", "Alacritty,pulsemixer", "-e", "pulsemixer", NULL };
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"terminal", spcmd1},
+    {"pulsemixer", spcmd2},
 };
 
 /* tagging */
@@ -55,11 +57,12 @@ static const Rule rules[] = {
      *  WM_NAME(STRING) = title
      */
     /* class       instance     title           tags mask       isfloating  isterminal  noswallow  monitor */
-    { "Gimp",      NULL,        NULL,           0,              1,          0,           0,        -1 },
-    { "Firefox",   NULL,        NULL,           1 << 8,         0,          0,          -1,        -1 },
     { "Alacritty", NULL,        NULL,           0,              0,          1,           0,        -1 },
+    { "Firefox",   NULL,        NULL,           1 << 8,         0,          0,          -1,        -1 },
     { NULL,        NULL,        "Event Tester", 0,              0,          0,           1,        -1 }, /* xev */
+
     { NULL,       "terminal",   NULL,           SPTAG(0),       1,          1,           0,        -1 },
+    { NULL,       "pulsemixer", NULL,           SPTAG(1),       1,          1,           0,        -1 },
 };
 
 /* layout(s) */
@@ -111,63 +114,64 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 #include "shiftview.c"
 static const Key keys[] = {
-    /* modifier                     key        function        argument */
+    /* modifier                     key             function        argument */
     // Base
-    { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-    { MODKEY,                       XK_q,      killclient,     {0} },
-    { MODKEY|ControlMask,           XK_c,      quit,           {0} },
-    { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-    { MODKEY,                       XK_n,      togglescratch,  {.ui = 0 } },
+    { MODKEY,                       XK_Return,      spawn,          {.v = termcmd } },
+    { MODKEY,                       XK_q,           killclient,     {0} },
+    { MODKEY|ControlMask,           XK_c,           quit,           {0} },
+    { MODKEY,                       XK_p,           spawn,          {.v = dmenucmd } },
 
     // Intra-tag movement
-    { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-    { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-    { MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.05} },
-    { MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.05} },
-    { MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = +0.25} },
-    { MODKEY|ShiftMask,             XK_k,      setcfact,       {.f = -0.25} },
+    { MODKEY,                       XK_k,           focusstack,     {.i = -1 } },
+    { MODKEY,                       XK_j,           focusstack,     {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_h,           setmfact,       {.f = -0.05} },
+    { MODKEY|ShiftMask,             XK_l,           setmfact,       {.f = +0.05} },
+    { MODKEY|ShiftMask,             XK_j,           setcfact,       {.f = +0.25} },
+    { MODKEY|ShiftMask,             XK_k,           setcfact,       {.f = -0.25} },
 
-    { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-    { MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
-    { MODKEY,                       XK_w,      focusmaster,    {0} },
-    { MODKEY,                       XK_b,      zoom,           {0} },
-    { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-    { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-    { MODKEY,                       XK_space,  togglefullscr,  {0} },
-    { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+    { MODKEY,                       XK_i,           incnmaster,     {.i = +1 } },
+    { MODKEY,                       XK_o,           incnmaster,     {.i = -1 } },
+    { MODKEY,                       XK_w,           focusmaster,    {0} },
+    { MODKEY,                       XK_b,           zoom,           {0} },
+    { MODKEY,                       XK_t,           setlayout,      {.v = &layouts[0]} },
+    { MODKEY,                       XK_f,           setlayout,      {.v = &layouts[1]} },
+    { MODKEY,                       XK_m,           setlayout,      {.v = &layouts[2]} },
+    { MODKEY,                       XK_space,       togglefullscr,  {0} },
+    { MODKEY|ShiftMask,             XK_space,       togglefloating, {0} },
 
 
     // Inter-tag movement
-    { MODKEY,                       XK_Tab,    view,           {0} },
-    { MODKEY,                       XK_h,      shiftview,      { .i = -1 } },
-    { MODKEY,                       XK_l,      shiftview,      { .i = +1 } },
-    { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+    { MODKEY,                       XK_Tab,         view,           {0} },
+    { MODKEY,                       XK_h,           shiftview,      { .i = -1 } },
+    { MODKEY,                       XK_l,           shiftview,      { .i = +1 } },
+    { MODKEY,                       XK_0,           view,           {.ui = ~0 } },
+    { MODKEY|ShiftMask,             XK_0,           tag,            {.ui = ~0 } },
 
 
-    { ControlMask|ShiftMask,        XK_g,      togglegaps,     {0} },
+    { ControlMask|ShiftMask,        XK_g,           togglegaps,     {0} },
 
     // Programs
-    { MODKEY,                       XK_apostrophe, spawn,      SHCMD("xsecurelock") },
+    { ControlMask|ShiftMask,        XK_t,           togglescratch,  {.ui = 0 } },
+    { MODKEY,                       XK_apostrophe,  spawn,          SHCMD("xsecurelock") },
 
-    { ControlMask|ShiftMask,        XK_comma,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
-    { ControlMask|ShiftMask,        XK_period, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
-    { ControlMask|ShiftMask,        XK_m,      spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    { ControlMask|ShiftMask,        XK_a,           togglescratch,  {.ui = 1 } },
+    { ControlMask|ShiftMask,        XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
+    { ControlMask|ShiftMask,        XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
+    { ControlMask|ShiftMask,        XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
 
-    { ControlMask|ShiftMask,        XK_k,                spawn, SHCMD("chkb ; kill -36 $(pidof dwmblocks)") }, // Not satisfied with this... fix.
-    { ControlMask|ShiftMask,        XK_Cyrillic_el,      spawn, SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    { ControlMask|ShiftMask,        XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") }, // Not satisfied with this... fix.
+    { ControlMask|ShiftMask,        XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
 
     // Tags
-    TAGKEYS(                        XK_1,                      0)
-    TAGKEYS(                        XK_2,                      1)
-    TAGKEYS(                        XK_3,                      2)
-    TAGKEYS(                        XK_4,                      3)
-    TAGKEYS(                        XK_5,                      4)
-    TAGKEYS(                        XK_6,                      5)
-    TAGKEYS(                        XK_7,                      6)
-    TAGKEYS(                        XK_8,                      7)
-    TAGKEYS(                        XK_9,                      8)
+    TAGKEYS(                        XK_1,                           0)
+    TAGKEYS(                        XK_2,                           1)
+    TAGKEYS(                        XK_3,                           2)
+    TAGKEYS(                        XK_4,                           3)
+    TAGKEYS(                        XK_5,                           4)
+    TAGKEYS(                        XK_6,                           5)
+    TAGKEYS(                        XK_7,                           6)
+    TAGKEYS(                        XK_8,                           7)
+    TAGKEYS(                        XK_9,                           8)
 };
 
 /* button definitions */
