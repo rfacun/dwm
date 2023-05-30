@@ -59,7 +59,7 @@ static const Rule rules[] = {
      */
     /* class       instance     title           tags mask       isfloating  isterminal  noswallow  monitor */
     { "Alacritty", NULL,        NULL,           0,              0,          1,           0,        -1 },
-    { "Firefox",   NULL,        NULL,           1 << 8,         0,          0,          -1,        -1 },
+    { "firefox",   "Navigator", NULL,           1 << 1,         0,          0,          -1,        -1 },
     { NULL,        NULL,        "Event Tester", 0,              0,          0,           1,        -1 }, /* xev */
 
     { NULL,       "terminal",   NULL,           SPTAG(0),       1,          1,           0,        -1 },
@@ -132,15 +132,15 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_j,           setcfact,       {.f = +0.25} },
     { MODKEY|ShiftMask,             XK_k,           setcfact,       {.f = -0.25} },
 
-    { MODKEY,                       XK_i,           incnmaster,     {.i = +1 } },
-    { MODKEY,                       XK_o,           incnmaster,     {.i = -1 } },
+    //{ MODKEY,                       XK_i,           incnmaster,     {.i = +1 } },
+    //{ MODKEY,                       XK_o,           incnmaster,     {.i = -1 } },
     { MODKEY,                       XK_w,           focusmaster,    {0} },
     { MODKEY,                       XK_b,           zoom,           {0} },
     { MODKEY,                       XK_t,           setlayout,      {.v = &layouts[0]} },
-    { MODKEY,                       XK_f,           setlayout,      {.v = &layouts[1]} },
+    //{ MODKEY,                       XK_f,           setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,           setlayout,      {.v = &layouts[2]} },
     { MODKEY,                       XK_space,       togglefullscr,  {0} },
-    { MODKEY|ShiftMask,             XK_space,       togglefloating, {0} },
+    { MODKEY,                       XK_f,           togglefloating, {0} },
 
 
     // Inter-tag movement
@@ -151,20 +151,21 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_0,           tag,            {.ui = ~0 } },
 
 
-    { ControlMask|ShiftMask,        XK_g,           togglegaps,     {0} },
+    { Mod4Mask,                     XK_g,           togglegaps,     {0} },
 
     // Programs
     { MODKEY,                       XK_apostrophe,  spawn,          SHCMD("xsecurelock") },
-    { ControlMask|ShiftMask,        XK_t,           togglescratch,  {.ui = 0 } },
-    { ControlMask|ShiftMask,        XK_s,           spawn,          SHCMD("alac") },
 
-    { ControlMask|ShiftMask,        XK_a,           togglescratch,  {.ui = 1 } },
-    { ControlMask|ShiftMask,        XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
-    { ControlMask|ShiftMask,        XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
-    { ControlMask|ShiftMask,        XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    { Mod4Mask,                     XK_Return,      togglescratch,  {.ui = 0 } },
+    { Mod4Mask,                     XK_c,           spawn,          SHCMD("alac") },
 
-    { ControlMask|ShiftMask,        XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") }, // Not satisfied with this... fix.
-    { ControlMask|ShiftMask,        XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    { Mod4Mask,                     XK_a,           togglescratch,  {.ui = 1 } },
+    { Mod4Mask,                     XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
+    { Mod4Mask,                     XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
+    { Mod4Mask,                     XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+
+    { Mod4Mask,                     XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") }, // Not satisfied with this... fix.
+    { Mod4Mask,                     XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
 
     // Tags
     TAGKEYS(                        XK_1,                           0)
