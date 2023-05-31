@@ -15,6 +15,11 @@ and nmaster per tag.
 "window swallowing" to `dwm` as known from Plan 9's windowing system `rio`.
 - [x] [status2d](https://dwm.suckless.org/patches/status2d/): allows colors and
 rectangle drawing in your `dwm` status bar.
+- [x] [alwayscenter](https://dwm.suckless.org/patches/alwayscenter/):
+all floating windows are centered, like the
+[center](https://dwm.suckless.org/patches/center/) patch, but without a rule.
+- [x] [togglefloatingcenter](https://dwm.suckless.org/patches/togglefloatingcenter/):
+togglefloating() floats the  client in a  centered position.
 
 ## Install
 ```

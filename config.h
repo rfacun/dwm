@@ -13,7 +13,7 @@ static const char col_bg[]          = "#0a0e14";
 static const char col_fg[]          = "#b3b1ad";
 static const char col_fg_sel[]      = "#0a0e14";
 static const char col_bg_sel[]      = "#c78c3f";    // orange accent, #748f4e for green accent
-static const char col_hbg_sel[]      = "#b37e38";   // orange accent dimmed
+static const char col_hbg_sel[]     = "#b37e38";    // orange accent dimmed
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_fg, col_bg, col_bg },
@@ -28,10 +28,11 @@ static const Rule rules[] = {
      *  WM_CLASS(STRING) = instance, class
      *  WM_NAME(STRING) = title
      */
-    /* class        instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-    { "firefox",    NULL,     NULL,           1 << 1,    0,          0,          -1,        -1 },
-    { "Alacritty",  NULL,     NULL,           0,         0,          1,           0,        -1 },
-    { NULL,         NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+    /* class        instance    title           tags mask  isfloating  isterminal  noswallow  monitor */
+    { "firefox",    NULL,       NULL,           1 << 1,    0,          0,          -1,        -1 },
+    { "Alacritty",  NULL,       NULL,           0,         0,          1,           0,        -1 },
+    { "Alacritty",  "floating", NULL,           0,         1,          1,           0,        -1 },
+    { NULL,         NULL,       "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -79,7 +80,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_h,           setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,           setmfact,       {.f = +0.05} },
     { MODKEY,                       XK_w,           focusmaster,    {0} },
-    { MODKEY,                       XK_b,           zoom,           {0} },
+    { MODKEY,                       XK_e,           zoom,           {0} },
     { MODKEY,                       XK_t,           setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_f,           setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,           setlayout,      {.v = &layouts[2]} },
@@ -95,6 +96,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_apostrophe,  spawn,          SHCMD("xsecurelock") },
     { Mod4Mask,                     XK_c,           spawn,          SHCMD("alac") },
 
+    { Mod4Mask,                     XK_a,           spawn,          SHCMD("alacritty --class Alacritty,floating -e pulsemixer") },
     { Mod4Mask,                     XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
     { Mod4Mask,                     XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
     { Mod4Mask,                     XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
