@@ -95,6 +95,7 @@ static const Key keys[] = {
     // Programs
     { MODKEY,                       XK_apostrophe,  spawn,          SHCMD("xsecurelock") },
     { Mod4Mask,                     XK_c,           spawn,          SHCMD("alac") },
+    { Mod4Mask,                     XK_t,           spawn,          SHCMD("alacritty --class Alacritty,floating -e tremc") },
 
     { Mod4Mask,                     XK_a,           spawn,          SHCMD("alacritty --class Alacritty,floating -e pulsemixer") },
     { Mod4Mask,                     XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
