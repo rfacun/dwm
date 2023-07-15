@@ -14,6 +14,7 @@ static const char bo_normal[]       = "#0a0e14";
 static const char fg_selected[]     = "#0a0e14";
 static const char bg_selected[]     = "#e09d47";
 static const char bo_selected[]     = "#e09d47";
+static const char hi_selected[]     = "#e09d47";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { fg_normal, bg_normal, bo_normal },
@@ -21,8 +22,8 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-//static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+//static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
 
 static const Rule rules[] = {
     /* class        instance    title           tags mask   isfloating  isterminal  noswallow   monitor */
@@ -58,7 +59,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected, NULL };
+static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
+    "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected,
+    "-nhb", bg_normal, "-nhf", bg_selected, "-shb", "#b37d38", "-shf", fg_selected, NULL };
 static const char *termcmd[]    = { "alacritty", NULL };
 
 static const Key keys[] = {
