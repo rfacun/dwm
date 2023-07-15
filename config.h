@@ -6,8 +6,8 @@ static const unsigned int snap      = 10;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const char *fonts[]          = { "Misc Tamsyn:size=12" }; // change to monospace 10 when fonts.conf is done
-static const char dmenufont[]       = "Misc Tamsyn:size=12"; // change to monospace 10 when fonts.conf is done
+static const char *fonts[]          = { "monospace:size=10" };
+static const char dmenufont[]       = "monospace:size=10";
 static const char fg_normal[]       = "#b3b1ad";
 static const char bg_normal[]       = "#0a0e14";
 static const char bo_normal[]       = "#0a0e14";
@@ -65,40 +65,47 @@ static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufon
 static const char *termcmd[]    = { "alacritty", NULL };
 
 static const Key keys[] = {
-    /* modifier         key         function        argument */
+    /* modifier         key             function        argument */
     // Programs
-    { MODKEY,           XK_Return,  spawn,          {.v = termcmd } },
-    { MODKEY,           XK_p,       spawn,          {.v = dmenucmd } },
-    { MODKEY,           XK_c,       killclient,     {0} },
+    { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
+    { MODKEY,           XK_p,           spawn,          {.v = dmenucmd } },
+    { MODKEY,           XK_c,           killclient,     {0} },
+    { MODKEY|Mod1Mask,  XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY|Mod1Mask,  XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY|Mod1Mask,  XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY|Mod1Mask,  XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") }, // Not satisfied with this... fix.
+    { MODKEY|Mod1Mask,  XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    { 0,                XK_Num_Lock,    spawn,          SHCMD("xdotool key Num_Lock ; kill -37 $(pidof dwmblocks)") },
+    { 0,                XK_Caps_Lock,   spawn,          SHCMD("xdotool key Caps_Lock ; kill -37 $(pidof dwmblocks)") },
 
     // Layout
-    { MODKEY,           XK_s,       zoom,           {0} },
-    { MODKEY,           XK_t,       setlayout,      {.v = &layouts[0]} },
-    { MODKEY,           XK_m,       setlayout,      {.v = &layouts[1]} },
-    { MODKEY,           XK_space,   togglefloating, {0} },
-    { MODKEY,           XK_h,       setmfact,       {.f = -0.05} },
-    { MODKEY,           XK_l,       setmfact,       {.f = +0.05} },
-    { MODKEY,           XK_f,       togglefullscr,  {0} },
+    { MODKEY,           XK_s,           zoom,           {0} },
+    { MODKEY,           XK_t,           setlayout,      {.v = &layouts[0]} },
+    { MODKEY,           XK_m,           setlayout,      {.v = &layouts[1]} },
+    { MODKEY,           XK_space,       togglefloating, {0} },
+    //{ MODKEY,           XK_h,           setmfact,       {.f = -0.05} },
+    //{ MODKEY,           XK_l,           setmfact,       {.f = +0.05} },
+    { MODKEY,           XK_f,           togglefullscr,  {0} },
 
     // Movement
-    { MODKEY|ShiftMask, XK_q,       quit,           {0} },
-    { MODKEY,           XK_Tab,     view,           {0} },
-    { MODKEY,           XK_j,       focusstack,     {.i = +1 } },
-    { MODKEY,           XK_k,       focusstack,     {.i = -1 } },
+    { MODKEY,           XK_q,           quit,           {0} },
+    { MODKEY,           XK_Tab,         view,           {0} },
+    { MODKEY,           XK_j,           focusstack,     {.i = +1 } },
+    { MODKEY,           XK_k,           focusstack,     {.i = -1 } },
 
-    { MODKEY,           XK_comma,   focusmon,       {.i = -1 } },
-    { MODKEY,           XK_period,  focusmon,       {.i = +1 } },
-    { MODKEY|ShiftMask, XK_comma,   tagmon,         {.i = -1 } },
-    { MODKEY|ShiftMask, XK_period,  tagmon,         {.i = +1 } },
-    TAGKEYS(            XK_1,                       0)
-    TAGKEYS(            XK_2,                       1)
-    TAGKEYS(            XK_3,                       2)
-    TAGKEYS(            XK_4,                       3)
-    TAGKEYS(            XK_5,                       4)
-    TAGKEYS(            XK_6,                       5)
-    TAGKEYS(            XK_7,                       6)
-    TAGKEYS(            XK_8,                       7)
-    TAGKEYS(            XK_9,                       8)
+    //{ MODKEY,           XK_comma,       focusmon,       {.i = -1 } },
+    //{ MODKEY,           XK_period,      focusmon,       {.i = +1 } },
+    //{ MODKEY|ShiftMask, XK_comma,       tagmon,         {.i = -1 } },
+    //{ MODKEY|ShiftMask, XK_period,      tagmon,         {.i = +1 } },
+    TAGKEYS(            XK_1,                           0)
+    TAGKEYS(            XK_2,                           1)
+    TAGKEYS(            XK_3,                           2)
+    TAGKEYS(            XK_4,                           3)
+    TAGKEYS(            XK_5,                           4)
+    TAGKEYS(            XK_6,                           5)
+    TAGKEYS(            XK_7,                           6)
+    TAGKEYS(            XK_8,                           7)
+    TAGKEYS(            XK_9,                           8)
 };
 
 /* button definitions */
