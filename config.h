@@ -69,7 +69,7 @@ static const Key keys[] = {
     // Programs
     { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
     { MODKEY,           XK_p,           spawn,          {.v = dmenucmd } },
-    { MODKEY|Mod1Mask,  XK_c,           killclient,     {0} },
+    { MODKEY,           XK_c,           killclient,     {0} },
 
     { MODKEY|Mod1Mask,  XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
     { MODKEY|Mod1Mask,  XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
