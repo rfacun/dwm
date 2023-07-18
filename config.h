@@ -30,6 +30,7 @@ static const Rule rules[] = {
     { "Gimp",       NULL,       NULL,           0,          1,          0,           0,         -1 },
     { "firefox",    NULL,       NULL,           1 << 8,     0,          0,          -1,         -1 },
     { "Alacritty",  NULL,       NULL,           0,          0,          1,           0,         -1 },
+    { "Alacritty",  "floating", NULL,           0,          1,          1,           0,         -1 },
     { NULL,         NULL,       "Event Tester", 0,          0,          0,           1,         -1 }, /* xev */
 };
 
@@ -68,6 +69,7 @@ static const Key keys[] = {
     /* modifier         key             function        argument */
     /* base */
     { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
+    { MODKEY,           XK_n,           spawn,          SHCMD("alacritty --class Alacritty,floating") },
     { MODKEY,           XK_p,           spawn,          {.v = dmenucmd } },
     { MODKEY,           XK_c,           killclient,     {0} },
     { MODKEY,           XK_0,           spawn,          SHCMD("session") },
