@@ -40,10 +40,10 @@ static const int resizehints    = 0;    /* 1 means respect size hints in tiled r
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-    /* symbol       arrange function */
-    { "[]=",   tile },    /* first entry is default */
-    { "[M]",   monocle },
-    { "><>",   NULL },    /* no layout function means floating behavior */
+    /* symbol   arrange function */
+    { "[]=",    tile },    /* first entry is default */
+    { "[M]",    monocle },
+    { "><>",    NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
@@ -66,22 +66,13 @@ static const char *termcmd[]    = { "alacritty", NULL };
 
 static const Key keys[] = {
     /* modifier         key             function        argument */
-    // Programs
+    /* base */
     { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
     { MODKEY,           XK_p,           spawn,          {.v = dmenucmd } },
     { MODKEY,           XK_c,           killclient,     {0} },
-
-    { MODKEY|Mod1Mask,  XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
-    { MODKEY|Mod1Mask,  XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
-    { MODKEY|Mod1Mask,  XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
-
-    { MODKEY|Mod1Mask,  XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
-    { MODKEY|Mod1Mask,  XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
-
-    { 0,                XK_Num_Lock,    spawn,          SHCMD("xdotool key Num_Lock ; kill -37 $(pidof dwmblocks)") },
-    { 0,                XK_Caps_Lock,   spawn,          SHCMD("xdotool key Caps_Lock ; kill -37 $(pidof dwmblocks)") },
-
-    // Layout
+    { MODKEY,           XK_0,           spawn,          SHCMD("session") },
+    { MODKEY|ShiftMask, XK_q,           quit,           {0} },
+    /* layout */
     { MODKEY,           XK_s,           zoom,           {0} },
     { MODKEY,           XK_t,           setlayout,      {.v = &layouts[0]} },
     { MODKEY,           XK_m,           setlayout,      {.v = &layouts[1]} },
@@ -89,17 +80,31 @@ static const Key keys[] = {
     { MODKEY,           XK_h,           setmfact,       {.f = -0.05} },
     { MODKEY,           XK_l,           setmfact,       {.f = +0.05} },
     { MODKEY,           XK_f,           togglefullscr,  {0} },
-
-    // Movement
-    { MODKEY|ShiftMask, XK_q,           quit,           {0} },
+    /* movement */
     { MODKEY,           XK_Tab,         view,           {0} },
     { MODKEY,           XK_j,           focusstack,     {.i = +1 } },
     { MODKEY,           XK_k,           focusstack,     {.i = -1 } },
-
     { MODKEY,           XK_comma,       focusmon,       {.i = -1 } },
     { MODKEY,           XK_period,      focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask, XK_comma,       tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask, XK_period,      tagmon,         {.i = +1 } },
+
+    /* volume control */
+    { Mod1Mask,         XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
+    { Mod1Mask,         XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
+    { Mod1Mask,         XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    /* screenshots */
+    { Mod1Mask,         XK_s,           spawn,          SHCMD("scrn") },
+    /* redshift */
+    { Mod1Mask,         XK_l,           spawn,          SHCMD("kill -38 $(pidof dwmblocks); chlight") },
+    /* kb layout (latam-ru) -- surely there is a better way to do this... specially for multiple layouts... */
+    { Mod1Mask,         XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    { Mod1Mask,         XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    /* other */
+    { 0,                XK_Num_Lock,    spawn,          SHCMD("xdotool key Num_Lock ; kill -37 $(pidof dwmblocks)") },
+    { 0,                XK_Caps_Lock,   spawn,          SHCMD("xdotool key Caps_Lock ; kill -37 $(pidof dwmblocks)") },
+
+    /* tags */
     TAGKEYS(            XK_1,                           0)
     TAGKEYS(            XK_2,                           1)
     TAGKEYS(            XK_3,                           2)
