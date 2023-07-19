@@ -93,6 +93,9 @@ static const Key keys[] = {
     { Mod1Mask,         XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
     { Mod1Mask,         XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
     { Mod1Mask,         XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    { Mod1Mask,         XK_v,           spawn,          SHCMD("alacritty --class Alacritty,floating -T pulsemixer -e pulsemixer") },
+    /* torrents */
+    { Mod1Mask,         XK_t,           spawn,          SHCMD("alacritty --class Alacritty,floating -T tremc -e tremc -X") },
     /* screenshots */
     { Mod1Mask,         XK_s,           spawn,          SHCMD("scrn") },
     /* redshift */
