@@ -60,9 +60,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
-    "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected,
-    "-nhb", bg_normal, "-nhf", bg_selected, "-shb", "#b37d38", "-shf", fg_selected, NULL };
+static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected, "-nhb", bg_normal, "-nhf", bg_selected, "-shb", "#b37d38", "-shf", fg_selected, NULL };
 static const char *termcmd[]    = { "alacritty", NULL };
 
 static const Key keys[] = {
@@ -70,7 +68,7 @@ static const Key keys[] = {
     /* base */
     { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
     { MODKEY,           XK_n,           spawn,          SHCMD("alacritty --class Alacritty,floating") },
-    { MODKEY,           XK_p,           spawn,          {.v = dmenucmd } },
+    { 0,                XK_Menu,        spawn,          {.v = dmenucmd } }, /* might change to script so I can open and close it with the same key */
     { MODKEY,           XK_c,           killclient,     {0} },
     { MODKEY,           XK_0,           spawn,          SHCMD("session") },
     { MODKEY|ShiftMask, XK_q,           quit,           {0} },
