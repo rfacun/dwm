@@ -60,52 +60,50 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected, "-nhb", bg_normal, "-nhf", bg_selected, "-shb", "#b37d38", "-shf", fg_selected, NULL };
+static const char *dmenucmd[]   = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", bg_normal, "-nf", fg_normal, "-sb", bg_selected, "-sf", fg_selected, "-nhb", bg_normal, "-nhf", bg_selected, "-shb", "#b37d38", "-shf", fg_selected, NULL };
 static const char *termcmd[]    = { "alacritty", NULL };
 
 static const Key keys[] = {
     /* modifier         key             function        argument */
     /* base */
     { MODKEY,           XK_Return,      spawn,          {.v = termcmd } },
-    { MODKEY,           XK_n,           spawn,          SHCMD("alacritty --class Alacritty,floating") },
-    { 0,                XK_Menu,        spawn,          {.v = dmenucmd } }, /* might change to script so I can open and close it with the same key */
-    { MODKEY,           XK_c,           killclient,     {0} },
-    { MODKEY,           XK_0,           spawn,          SHCMD("session") },
-    { MODKEY|ShiftMask, XK_q,           quit,           {0} },
+    { MODKEY,           XK_a,           spawn,          SHCMD("alacritty --class Alacritty,floating") },
+    { MODKEY,           XK_o,           spawn,          {.v = dmenucmd } },
+    { MODKEY,           XK_d,           killclient,     {0} },
+    { MODKEY,           XK_x,           spawn,          SHCMD("session") },
     /* layout */
     { MODKEY,           XK_s,           zoom,           {0} },
-    { MODKEY,           XK_t,           setlayout,      {.v = &layouts[0]} },
-    { MODKEY,           XK_m,           setlayout,      {.v = &layouts[1]} },
+    { MODKEY,           XK_g,           setlayout,      {0} },
     { MODKEY,           XK_space,       togglefloating, {0} },
     { MODKEY,           XK_h,           setmfact,       {.f = -0.05} },
     { MODKEY,           XK_l,           setmfact,       {.f = +0.05} },
     { MODKEY,           XK_f,           togglefullscr,  {0} },
     /* movement */
-    { MODKEY,           XK_Tab,         view,           {0} },
     { MODKEY,           XK_j,           focusstack,     {.i = +1 } },
     { MODKEY,           XK_k,           focusstack,     {.i = -1 } },
-    { MODKEY,           XK_comma,       focusmon,       {.i = -1 } },
-    { MODKEY,           XK_period,      focusmon,       {.i = +1 } },
-    { MODKEY|ShiftMask, XK_comma,       tagmon,         {.i = -1 } },
-    { MODKEY|ShiftMask, XK_period,      tagmon,         {.i = +1 } },
+    { MODKEY,           XK_Tab,         focusmon,       {.i = +1 } },
+    { MODKEY|ShiftMask, XK_Tab,         tagmon,         {.i = +1 } },
 
-    /* volume control */
-    { Mod1Mask,         XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
-    { Mod1Mask,         XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
-    { Mod1Mask,         XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
-    { Mod1Mask,         XK_v,           spawn,          SHCMD("alacritty --class Alacritty,floating -T pulsemixer -e pulsemixer") },
-    /* torrents */
-    { Mod1Mask,         XK_t,           spawn,          SHCMD("alacritty --class Alacritty,floating -T tremc -e tremc -X") },
+    /* volume */
+    { MODKEY,           XK_comma,       spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY,           XK_period,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY,           XK_m,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -35 $(pidof dwmblocks)") },
+    { MODKEY,           XK_v,           spawn,          SHCMD("alacritty --class Alacritty,floating -T pulsemixer -e pulsemixer") },
+    /* light */
+    { MODKEY,           XK_r,           spawn,          SHCMD("kill -38 $(pidof dwmblocks); chlight") },
+    /* torrs */
+    { MODKEY,           XK_t,           spawn,          SHCMD("alacritty --class Alacritty,floating -T tremc -e tremc -X") },
+
+
     /* screenshots */
-    { Mod1Mask,         XK_s,           spawn,          SHCMD("scrn") },
-    /* redshift */
-    { Mod1Mask,         XK_l,           spawn,          SHCMD("kill -38 $(pidof dwmblocks); chlight") },
-    /* kb layout (latam-ru) -- surely there is a better way to do this... specially for multiple layouts... */
-    { Mod1Mask,         XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
-    { Mod1Mask,         XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
-    /* other */
-    { 0,                XK_Num_Lock,    spawn,          SHCMD("xdotool key Num_Lock ; kill -37 $(pidof dwmblocks)") },
-    { 0,                XK_Caps_Lock,   spawn,          SHCMD("xdotool key Caps_Lock ; kill -37 $(pidof dwmblocks)") },
+    { MODKEY,           XK_z,           spawn,          SHCMD("scrn") },
+
+    ///* kb layout (latam-ru) -- surely there is a better way to do this... specially for multiple layouts... */
+    //{ Mod1Mask,         XK_k,           spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    //{ Mod1Mask,         XK_Cyrillic_el, spawn,          SHCMD("chkb ; kill -36 $(pidof dwmblocks)") },
+    ///* other */
+    //{ 0,                XK_Num_Lock,    spawn,          SHCMD("xdotool key Num_Lock ; kill -37 $(pidof dwmblocks)") },
+    //{ 0,                XK_Caps_Lock,   spawn,          SHCMD("xdotool key Caps_Lock ; kill -37 $(pidof dwmblocks)") },
 
     /* tags */
     TAGKEYS(            XK_1,                           0)
